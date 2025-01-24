@@ -14,13 +14,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ChessComControllerTests {
 
-
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     void playerEndpointShouldReturnPlayerOnValidRequest() throws Exception {
         this.mockMvc.perform(get("/chess-com/get-player/hikaru").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    }
+
+    @Test
+    void playerEndpointShouldReturnPlayerGamesForDateOnValidRequest() throws Exception {
+        this.mockMvc.perform(get("/chess-com/get-player-games/hikaru/2025/01").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
 }
