@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class Helper {
+    private Helper() {
+        //Zero argument constructor
+    }
 
     public static String getPlayerUrl(String player){
-
         return "https://api.chess.com/pub/player/"+player;
     }
 
@@ -14,16 +16,18 @@ public class Helper {
         return "https://api.chess.com/pub/player/"+player+"/games/"+year+"/"+month;
     }
 
-    public static BigDecimal calculateRatio(int num1, int num2) {
+    public static String calculateRatio(int num1, int num2) {
         if (num2 == 0) {
-            throw new RuntimeException("");
+            return "Undefined (division by zero)";
         }
 
         BigDecimal a = new BigDecimal(num1);
         BigDecimal b = new BigDecimal(num2);
 
+        BigDecimal ratio = a.divide(b,2, RoundingMode.HALF_UP); // Calculate ratio with 2 decimal places
 
-        return a.divide(b,2, RoundingMode.HALF_UP);
+
+        return String.valueOf(ratio); // Format as 1:x
     }
 
 }
