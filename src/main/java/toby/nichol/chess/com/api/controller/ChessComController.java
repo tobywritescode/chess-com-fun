@@ -29,4 +29,10 @@ public class ChessComController {
         return ResponseEntity.ok(gameStats);
     }
 
+    @GetMapping("/get-player-stats-for-date/{player}/{year}/{month}")
+    public ResponseEntity<String> getPlayerStatsForDates(@PathVariable String player, @PathVariable String year, @PathVariable String month){
+        String gameStats = chessComService.getPlayerStatsForDate(player, year, month);
+        return ResponseEntity.ok(gameStats);
+    }
+
 }

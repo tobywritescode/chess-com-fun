@@ -10,8 +10,10 @@ import org.springframework.web.client.RestTemplate;
 import toby.nichol.chess.com.api.model.GameStats;
 import toby.nichol.chess.com.api.model.Player;
 
-import static toby.nichol.chess.com.api.service.helper.Helper.getGamesUrl;
-import static toby.nichol.chess.com.api.service.helper.Helper.getPlayerUrl;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static toby.nichol.chess.com.api.service.helper.Helper.*;
 
 
 @Service
@@ -59,4 +61,19 @@ public class ChessComService {
     }
 
 
+    public String getPlayerStatsForDate(String player, String year, String month) {
+        GameStats gameStats = getPlayerGamesForDate(player, year, month);
+
+        Map<String, Long> wls = gameStats.getGames().stream()
+                .filter(game -> game.getWhite().getUsername().equalsIgnoreCase("tobyChezz"))
+                .collect(Collectors.groupingBy(g -> g.getWhite().getResult().equalsIgnoreCase("win") ? "win" : "loss", Collectors.counting()));
+
+        int wins = wls.getOrDefault("win", 0L).intValue();
+        int losses = wls.getOrDefault("loss", 0L).intValue();
+
+        String ratio  = calculateRatio(wins, losses);
+
+        return "In the month "+month+"/"+year+ " you won " + wins + " and lost " + losses + " this is a ratio of " + ratio;
+
+    }
 }
