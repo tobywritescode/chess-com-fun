@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class HelperTests {
@@ -25,5 +26,15 @@ public class HelperTests {
         assertEquals(expected, actual);
         assertEquals(expected1, actual1);
         assertEquals(expected2, actual2);
+    }
+
+    @Test
+    public void calculateRatioMethodShouldThrowErrorIfNumbersAreZero(){
+        assertThrows(RuntimeException.class, () -> {
+            Helper.calculateRatio(50, 0);
+        });
+        assertThrows(RuntimeException.class, () -> {
+            Helper.calculateRatio(0, 50);
+        });
     }
 }
